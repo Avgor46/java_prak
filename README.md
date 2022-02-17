@@ -112,14 +112,14 @@ CMC MSU Web-technology practical work
 - client\_id - внешний ключ
 - order\_id -  первичныйключ
 - station\_id - внешний ключ
-- start\_st\_number
-- end\_st\_number
+- start\_st\_number - Номер станции отправления
+- end\_st\_number - Номер станции прибытия
 - price - Стоимость поездки, расчитываемая по формуле для простоты: (End\_st\_number- Start\_st\_number) * standart\_price * price\_cofficient
 
 ### Таблица Stations on trip
 ---
 - trip\_id - внешний ключ
-- station\_id -  первичныйключ
+- station\_id -  первичный ключ
 - st\_number - внешний ключ
 - availible\_seats - кол-во свободных мест на данном рейсе на данной станции.
 
