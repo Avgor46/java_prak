@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE hibernate-configuration PUBLIC
+        "-//Hibernate/Hibernate Configuration DTD 3.0//EN"
+        "http://www.hibernate.org/dtd/hibernate-configuration-3.0.dtd">
+
+<hibernate-configuration>
+    <session-factory>
+
+        <property name="connection.url">jdbc:postgresql://localhost:5432/BusInfo</property>
+        <property name="connection.driver_class">org.postgresql.Driver</property>
+        <property name="connection.username">postgres</property> 
+        <property name="connection.password">sga123sga</property> 
+        <property name="show_sql">true</property> 
+        <property name="hibernate.format_sql">true</property> 
+        <property name="default_schema">info</property>
+        <property name="hibernate.current_session_context_class">thread</property>
+
+        <mapping class="entity.clients" />
+        <mapping class="entity.orders" />
+        <mapping class="entity.stations" />
+        <mapping class="entity.stations_on_trip" />
+        <mapping class="entity.trips" />
+
+    </session-factory>
+</hibernate-configuration>
