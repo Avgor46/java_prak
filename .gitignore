@@ -1,3 +1,4 @@
-.idea
+*.idea
 WebApp/target
 WebApp/WebBusInfo.iml
+*.swp

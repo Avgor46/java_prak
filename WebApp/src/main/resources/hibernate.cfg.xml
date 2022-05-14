@@ -15,11 +15,11 @@
         <property name="default_schema">info</property>
         <property name="hibernate.current_session_context_class">thread</property>
 
-        <mapping class="entity.clients" />
-        <mapping class="entity.orders" />
-        <mapping class="entity.stations" />
-        <mapping class="entity.stations_on_trip" />
-        <mapping class="entity.trips" />
+        <mapping class="MyWebApp.entity.clients" />
+        <mapping class="MyWebApp.entity.orders" />
+        <mapping class="MyWebApp.entity.stations" />
+        <mapping class="MyWebApp.entity.stations_on_trip" />
+        <mapping class="MyWebApp.entity.trips" />
 
     </session-factory>
 </hibernate-configuration>
