@@ -9,7 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestParam;
 
 @Controller
 public class VariantsController {
@@ -23,9 +23,9 @@ public class VariantsController {
     @Autowired
     private final clientsDao dclients = new clientsDao();
 
-    @GetMapping("/AvVars/{start}/{end}")
-    public String TicketPurchase(@PathVariable(value = "start") String start,
-                                 @PathVariable(value = "end") String end,
+    @GetMapping("/AvVars")
+    public String TicketPurchase(@RequestParam(value = "start") String start,
+                                 @RequestParam(value = "end") String end,
                                  Model model) {
         stations_on_trip st = dstations_on_trip.getByID(Long.parseLong(start));
         stations_on_trip en = dstations_on_trip.getByID(Long.parseLong(end));
@@ -44,9 +44,9 @@ public class VariantsController {
         return "AcceptOrder";
     }
 
-    @GetMapping("/Success/{start}/{end}")
-    public String success(@PathVariable(value = "start") String start,
-                          @PathVariable(value = "end") String end,
+    @GetMapping("/Success")
+    public String success(@RequestParam(value = "start") String start,
+                          @RequestParam(value = "end") String end,
                           Model model) {
         stations_on_trip st = dstations_on_trip.getByID(Long.parseLong(start));
         stations_on_trip en = dstations_on_trip.getByID(Long.parseLong(end));
@@ -60,6 +60,7 @@ public class VariantsController {
         Long end_st_num = en.getSt_num();
         Double price = 50 * Math.abs(st.getTrip_id().getPr_c() * (en.getSt_num() - st.getSt_num()));
         dorders.insert(new orders(order_id, trip_id, dclients.getAll().get(0), start_st_num, end_st_num, price));
-        return "SuccessOrder";
+        model.addAttribute("text", "Ваш заказ успешно оформлен!");
+        return "Success";
     }
 }
