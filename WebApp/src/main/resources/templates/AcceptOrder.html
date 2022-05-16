@@ -24,7 +24,7 @@
     <p><b>Станция прибытия: </b><span th:text="${end_st}"></span></p>
     <p><b>Дата прибытия: </b><span th:text="${end_date}"></span></p>
     <p><b>Цена билета: </b><span th:text="${price}"></span></p>
-    <a th:href="@{/Success(start=${start}, end=${end})}" class="btn btn-success">Подтвердить заказ</a>
+    <a th:href="@{/Success(start=${start}, end=${end})}" class="btn btn-success" id="accept">Подтвердить заказ</a>
 </div>
 
 <div th:insert="blocks/footer :: footer"></div>

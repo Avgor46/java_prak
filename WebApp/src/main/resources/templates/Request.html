@@ -38,7 +38,7 @@
                 <td th:text="${el.get(5)}">Компания</td>
                 <td>
                     <form th:action="@{/request/{id}/remove(id=${el.get(6)})}" method="post">
-                        <button class="btn btn-danger" type="submit">Удалить</button>
+                        <button class="btn btn-danger" type="submit" th:id="'delete' + ${el.get(6)}">Удалить</button>
                     </form>
                 </td>
             </tr>

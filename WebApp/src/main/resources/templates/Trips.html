@@ -37,7 +37,7 @@
       <td th:text="${el.get(1).getDate()}">Время прибытия</td>
       <td th:text="${el.get(0).getTrip_id().getCompany()}">Компания</td>
       <td>
-        <a th:href="@{/trips/{id}(id=${el.get(0).getTrip_id().getId()})}" class="btn btn-primary">Подробнее</a>
+        <a th:href="@{/trips/{id}(id=${el.get(0).getTrip_id().getId()})}" class="btn btn-primary" th:id="'More' + ${el.get(0).getTrip_id().getId()}">Подробнее</a>
       </td>
     </tr>
     </tbody>

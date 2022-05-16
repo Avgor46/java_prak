@@ -35,7 +35,7 @@
         </tbody>
     </table>
     <form th:action="@{/admin/trips/{id}/remove(id=${stont.get(0).getTrip_id().getId()})}" method="post">
-        <button class="btn btn-danger" type="submit">Удалить рейс</button>
+        <button class="btn btn-danger" type="submit" id="DeleteTrip">Удалить рейс</button>
     </form>
 </div>
 <div th:insert="blocks/footer :: footer"></div>>

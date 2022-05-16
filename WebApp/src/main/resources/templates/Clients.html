@@ -29,7 +29,7 @@
             <td th:text="${el.getName()}">Полное имя</td>
             <td th:text="${el.getPhone()}">Номер телефона</td>
             <td>
-                <a th:href="@{/admin/clients/{id}(id=${el.getId()})}" class="btn btn-warning">Информация о клиенте</a>
+                <a th:href="@{/admin/clients/{id}(id=${el.getId()})}" class="btn btn-warning" th:id="'clinfo' + ${el.getId()}">Информация о клиенте</a>
             </td>
         </tr>
         </tbody>

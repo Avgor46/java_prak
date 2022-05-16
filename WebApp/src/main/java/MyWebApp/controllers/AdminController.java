@@ -1,11 +1,7 @@
 package MyWebApp.controllers;
 
-import MyWebApp.dao.Impl.clientsDao;
-import MyWebApp.dao.Impl.stations_on_tripDao;
-import MyWebApp.dao.Impl.tripsDao;
-import MyWebApp.entity.clients;
-import MyWebApp.entity.stations_on_trip;
-import MyWebApp.entity.trips;
+import MyWebApp.dao.Impl.*;
+import MyWebApp.entity.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -14,7 +10,9 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import java.sql.Timestamp;
 import java.util.*;
+import java.util.stream.Collectors;
 
 @Controller
 public class AdminController {
@@ -27,6 +25,12 @@ public class AdminController {
 
     @Autowired
     private final stations_on_tripDao dstations_on_trip = new stations_on_tripDao();
+
+    @Autowired
+    private final stationsDao dstations = new stationsDao();
+
+    @Autowired
+    private ordersDao dorders = new ordersDao();
 
     @GetMapping("/admin")
     public String adminroot(Model model) {
@@ -133,4 +137,79 @@ public class AdminController {
         model.addAttribute("stont", stont);
         return "TripInfo";
     }
+
+    @GetMapping("/admin/trips/addtrip")
+    public String addtrip(Model model) {
+        return "AddTrip";
+    }
+
+    @PostMapping("/admin/trips/addtrip")
+    public String addtripsubmit(@RequestParam String company,
+                                @RequestParam String a_seats,
+                                @RequestParam String hstations,
+                                @RequestParam String dates,
+                                Model model) {
+        List<stations> lstations;
+        try {
+            lstations = Arrays.stream(hstations.split(",")).map(el -> {
+                Map<String, String> findst = new HashMap();
+                findst.put("name", el.trim());
+                List<stations> lst = dstations.search(findst);
+                return lst.get(0);}).collect(Collectors.toList());
+        } catch (Exception e) {
+            model.addAttribute("err", "Cannot find station");
+            return "ErrPage";
+        }
+        List<Timestamp> ldates;
+        try {
+            ldates = Arrays.stream(dates.split(",")).map(el -> {
+                System.out.println(el + "#");
+                return Timestamp.valueOf(el + ":00");
+            }).collect(Collectors.toList());
+        } catch (Exception e) {
+            model.addAttribute("err", "Cannot parse dates");
+            return "ErrPage";
+        }
+        if (lstations.size() != ldates.size()) {
+            model.addAttribute("err", "Sizes of dates and stations are not equal");
+            return "ErrPage";
+        }
+        Map<String, String> find = new HashMap();
+        find.put("company", company);
+        List<trips> ltrips= dtrips.search(find);
+        if (ltrips.size() == 0) {
+            model.addAttribute("err", "Company not found");
+            return "ErrPage";
+        }
+        trips ltrip = ltrips.get(0);
+        ltrip.setId((long)dtrips.getAll().size() + 1);
+        dtrips.insert(ltrip);
+        int lsize = lstations.size();
+        Long stont_size = Long.valueOf(dstations_on_trip.getAll().size() + 1);
+        for (int i = 1; i <= lsize; ++i) {
+            stations_on_trip lstont = new stations_on_trip(stont_size++, ltrip,
+                    lstations.get(i - 1), i, Long.valueOf(a_seats), ldates.get(i - 1));
+            dstations_on_trip.insert(lstont);
+        }
+        return "redirect:/admin/trips";
+    }
+
+    @PostMapping("/admin/trips/{id}/remove")
+    public String deletetrip(@PathVariable(value = "id") long id, Model model) {
+        trips trip_id = dtrips.getByID(id);
+        if (trip_id == null) {
+            model.addAttribute("err", "Trip not found!");
+            return "ErrPage";
+        }
+        Map<String, Long> find = new HashMap();
+        find.put("trip_id", trip_id.getId());
+        List<orders> lorders= dorders.search(find);
+        for (var el: lorders) {
+            dorders.delete(el);
+        }
+        dtrips.delete(trip_id);
+        model.addAttribute("text", "Рейс успешно удален!");
+        return "Success";
+    }
+
 }

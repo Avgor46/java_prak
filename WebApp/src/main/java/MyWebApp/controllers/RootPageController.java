@@ -84,7 +84,7 @@ public class RootPageController {
             }
 
             if ((sdate.equals(edate) || sdate.before(edate)) && (sdate.equals(ldate) || sdate.before(ldate))) {
-                List<String> temp = Arrays.asList(from, to, sdate.toString(), la_seats.toString(),
+                List<String> temp = Arrays.asList(from, to, sdate.toString(), la_seats.toString(), String.valueOf(lid),
                         String.valueOf(start_num), String.valueOf(end_num));
                 result.add(temp);
             }

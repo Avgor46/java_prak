@@ -24,15 +24,15 @@
         <input type="text" placeholder="Логин" th:value="${client.getLogin()}" class="form-control" name="login"><br>
         <div class="row">
             <div class="col-3">
-                <a th:href="@{/admin/clients/{id}/trips(id=${client.getId()})}" class="btn btn-info">Заказы клиента</a>
+                <a th:href="@{/admin/clients/{id}/trips(id=${client.getId()})}" class="btn btn-info" id="clientorder">Заказы клиента</a>
             </div>
             <div class="col-3">
-                <button type="submit" class="btn btn-success">Обновить</button>
+                <button type="submit" class="btn btn-success" id="update">Обновить</button>
             </div>
         </div><br>
     </form>
     <form th:action="@{/admin/clients/{id}/remove(id=${client.getId()})}" method="post">
-        <button class="btn btn-danger" type="submit">Удалить клиента</button>
+        <button class="btn btn-danger" type="submit" id="deleteclient">Удалить клиента</button>
     </form>
 </div>
 
