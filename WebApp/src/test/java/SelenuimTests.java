@@ -192,6 +192,15 @@ public class SelenuimTests {
         String element = driver.findElement(By.tagName("h1")).getText();
         Assert.assertTrue(element.contains("ID 2"));
 
+        table1 = driver.findElement(By.id("Table1")).getText();
+
+        Assert.assertTrue(table1.contains("Midgard"));
+        Assert.assertTrue(table1.contains("Asgard"));
+        Assert.assertTrue(table1.contains("2022-01-01 20:20"));
+
+        element = driver.findElement(By.id("company")).getText();
+        Assert.assertTrue(element.contains("Umbrella"));
+
         driver.findElement(By.id("DeleteTrip")).click();
 
         Assert.assertEquals(driver.getTitle(), "Success");

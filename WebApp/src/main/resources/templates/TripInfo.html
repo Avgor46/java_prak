@@ -16,7 +16,7 @@
 <header th:insert="blocks/header :: header"></header>
 <div class="container mt-5">
     <h1>Информация о рейсе: ID <b><span th:text="${stont.get(0).getTrip_id().getId()}"></span></b></h1>
-    <p><b>Компания: </b><span th:text="${stont.get(0).getTrip_id().getCompany()}"></span></p>
+    <p><b>Компания: </b><span th:text="${stont.get(0).getTrip_id().getCompany()}" id="company"></span></p>
     <p><b>Наценка компании: </b><span th:text="${stont.get(0).getTrip_id().getPr_c()}"></span></p>
     <table id="Table1" class="table table-striped table-hover" style="width: 100%">
         <thead>
