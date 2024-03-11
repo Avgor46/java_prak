@@ -1,6 +1,6 @@
-DROP DATABASE "BusInfo";
+/*DROP DATABASE "BusInfo";
 
-CREATE DATABASE "BusInfo";
+CREATE DATABASE "BusInfo";*/
 
 \connect "BusInfo"
 

@@ -1,0 +1,27 @@
+services:
+  web:
+    build: .
+    image: webapp
+    volumes:
+        - ${PROJECT_DIR}/WebApp:/WebApp 
+    working_dir: /WebApp
+    command:
+        mvn spring-boot:run
+    ports: 
+      - 8080:8080
+    depends_on:
+      - db
+  db:
+    image: postgres:14.5
+    environment:
+      POSTGRES_DB: "BusInfo"
+      POSTGRES_USER: "postgres"
+      POSTGRES_PASSWORD: "qwerty"
+    volumes:
+      - ${PROJECT_DIR}/SQL:/docker-entrypoint-initdb.d
+      - db-postgres-data:/var/lib/postgresql/data
+    ports:
+      - "5432:5432"
+
+volumes:
+  db-postgres-data:
