@@ -1,0 +1,46 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: spring-app
+  labels:
+    app: spring-app
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: spring-app
+  template:
+    metadata:
+      labels:
+        app: spring-app
+    spec:
+        #restartPolicy: Never
+      containers:
+        - name: spring-app
+          workingDir: /WebApp
+          imagePullPolicy: Never
+          command: ["mvn", "spring-boot:run"]
+          volumeMounts:
+            - name: docker-webapp
+              mountPath: /WebApp
+          image: webapp
+          ports:
+            - containerPort: 8080
+      volumes:
+      - name: docker-webapp
+        hostPath:
+          path: /home/docker/WebApp
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: spring-app
+spec:
+  type: NodePort
+  selector:
+    app: spring-app
+  ports:
+    - protocol: TCP
+      port: 8080
+      targetPort: 8080
+      nodePort: 30001

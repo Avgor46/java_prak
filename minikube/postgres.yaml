@@ -1,0 +1,54 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: postgres
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: postgres
+  template:
+    metadata:
+      labels:
+        app: postgres
+    spec:
+      containers:
+        - name: postgres
+          image: postgres:14.5
+          env:
+            - name: POSTGRES_USER
+              value: postgres
+            - name: POSTGRES_PASSWORD
+              value: qwerty
+            - name: POSTGRES_DB
+              value: BusInfo
+          ports:
+            - containerPort: 5432
+              name: postgres
+              protocol: TCP
+          volumeMounts:
+            - name: postgres
+              mountPath: /var/lib/postgresql/data
+            - name: db-init
+              mountPath: /docker-entrypoint-initdb.d
+      volumes:
+        - name: postgres
+          persistentVolumeClaim:
+            claimName: postgres
+        - name: db-init
+          hostPath:
+            path: /home/docker/db-init
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: postgres
+spec:
+  selector:
+    app: postgres
+  type: NodePort
+  ports:
+    - name: postgres
+      port: 5432
+      targetPort: 5432
+      protocol: TCP
